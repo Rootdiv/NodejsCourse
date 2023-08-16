@@ -1,33 +1,29 @@
+setTimeout(() => {
+  console.log('Выйди вон!');
+}, 10);
+
+setTimeout(() => {
+  console.log('Был диван,');
+}, 0);
+
 process.nextTick(() => {
   console.log('Чемодан,');
 });
 
-setTimeout(() => {
-  setTimeout(() => {
-    process.nextTick(() => {
-      console.log('На диване');
-    });
-
-    console.log('Был диван,');
-
-    setTimeout(() => {
-      console.log('Ехал слон.');
-    }, 0);
-  }, 10);
-
-  setImmediate(() => {
-    console.log('В чемодане');
-  });
+setImmediate(() => {
+  console.log('На диване');
 });
 
-setTimeout(() => {
-  setImmediate(() => {
-    console.log('Кто не верит –');
-  });
+setImmediate(() => {
+  console.log('Ехал слон.');
+});
 
-  setImmediate(() => {
-    console.log('Выйди вон!');
-  });
-}, 20);
+setImmediate(() => {
+  console.log('Кто не верит –');
+});
+
+process.nextTick(() => {
+  console.log('В чемодане');
+});
 
 console.log('Плыл по морю');
