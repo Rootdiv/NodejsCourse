@@ -1,13 +1,9 @@
-const { sayHello, user, Car, map } = require('./modules/toExport.js');
+const { userData } = require('mpackage');
 
-const promises = require('node:fs/promises');
+const fullUserData = userData({
+  name: 'владимир козерец',
+  dateBirth: '07.03.1983',
+  purpose: 'карьерный Рост',
+});
 
-console.log(require);
-
-sayHello();
-
-console.log(user.firstname);
-
-console.log(map);
-
-console.log(new Car('mini', 'cooper').showTitle());
+console.log('fullUserData: ', fullUserData);

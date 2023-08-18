@@ -1,10 +1,9 @@
-//const mpackage = require('mpackage');
-import mpackage from 'mpackage';
+import { userData } from 'mpackage';
 
-if (mpackage.name === 'pow') {
-  //const { pow } = require('mpackage/pow');
-  const { pow } = await import('mpackage/pow');
-  console.log(pow(2, 3));
-} else {
-  console.log('mpackage: ', mpackage);
-}
+const fullUserData = userData({
+  name: 'владимир козерец',
+  dateBirth: '07.03.1983',
+  purpose: 'карьерный Рост',
+});
+
+console.log('fullUserData: ', fullUserData);
