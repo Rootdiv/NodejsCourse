@@ -1,4 +1,4 @@
-const { userData } = require('mpackage');
+import { userData } from 'mpackage';
 
 const fullUserData = userData({
   name: 'владимир козерец',
