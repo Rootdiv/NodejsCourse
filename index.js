@@ -1,29 +1,13 @@
-setTimeout(() => {
-  console.log('Выйди вон!');
-}, 10);
+const { sayHello, user, Car, map } = require('./modules/toExport.js');
 
-setTimeout(() => {
-  console.log('Был диван,');
-}, 0);
+const promises = require('node:fs/promises');
 
-process.nextTick(() => {
-  console.log('Чемодан,');
-});
+console.log(require);
 
-setImmediate(() => {
-  console.log('На диване');
-});
+sayHello();
 
-setImmediate(() => {
-  console.log('Ехал слон.');
-});
+console.log(user.firstname);
 
-setImmediate(() => {
-  console.log('Кто не верит –');
-});
+console.log(map);
 
-process.nextTick(() => {
-  console.log('В чемодане');
-});
-
-console.log('Плыл по морю');
+console.log(new Car('mini', 'cooper').showTitle());
