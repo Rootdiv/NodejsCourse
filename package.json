@@ -1,0 +1,35 @@
+{
+  "name": "packagewithpackages",
+  "version": "1.0.0",
+  "description": "my first project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index",
+    "lint": "eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson03"
+  },
+  "keywords": [
+    "package",
+    "methed",
+    "node"
+  ],
+  "author": "Vladimir <web-master@rootdiv.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rootdiv/NodejsCourse/issues"
+  },
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson03#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.46.0",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.1.6"
+  }
+}
