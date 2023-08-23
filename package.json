@@ -1,16 +1,17 @@
 {
-  "name": "packagewithpackages",
+  "name": "event-event-emmiter",
   "version": "1.0.0",
-  "description": "my first project",
+  "description": "Event / EventEmmiter",
   "main": "index.js",
   "scripts": {
     "start": "node index",
     "dev": "nodemon index",
     "lint": "eslint . --fix"
   },
+  "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson03"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson04"
   },
   "keywords": [
     "package",
@@ -22,14 +23,12 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson03#readme",
-  "dependencies": {
-    "express": "^4.18.2",
-    "ws": "^8.13.0"
-  },
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson04#readme",
   "devDependencies": {
-    "eslint": "^8.46.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "nodemon": "^3.0.1",
-    "typescript": "^5.1.6"
+    "prettier": "^3.0.2"
   }
 }
