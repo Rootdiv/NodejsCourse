@@ -21,3 +21,5 @@ const intervalID = setInterval(() => {
     clearInterval(intervalID);
   }
 }, 1000);
+
+//Задание 2 в файле task2.js
