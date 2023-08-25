@@ -1,48 +1,41 @@
-import { appendFile, stat } from 'node:fs/promises';
+import { readdir, mkdir, copyFile, stat } from 'node:fs/promises';
 
-const checkFileStats = async path => {
-  try {
-    const stats = await stat(path);
-    const statsPath = {
-      'Файл или папка': path,
-      'Размер файла в байтах': stats.size,
-      'Дата создания файла': stats.birthtime,
-      'Дата последнего изменения': stats.mtime,
-    };
-
-    if (stats.isFile()) {
-      statsPath.type = 'Это файл';
-    } else if (stats.isDirectory()) {
-      statsPath.type = 'Это каталог';
-    } else {
-      statsPath.type = 'Это неизвестный тип';
-    }
-    console.log(statsPath);
-  } catch (err) {
-    console.error('Ошибка получения информации о файле', err);
+const logCopy = message => {
+  if (message) {
+    console.error('Произошла ошибка:', message);
   }
 };
 
-checkFileStats('./files');
-checkFileStats('./files/newCopy.txt');
-
-const appendToFile = async (filePath, data) => {
-  try {
-    await appendFile(filePath, data);
-    console.log('Данные успешно записались в файл');
-  } catch (err) {
-    console.error('Ошибка при записи в файл', err);
+const copyFolder = async (sourceDir, targetDir, callback) => {
+  let message = null;
+  if (sourceDir.trim() === '' || targetDir.trim() === '') {
+    message = 'Не указана целевая папка или папка назначения';
+    return;
+  } else if (sourceDir.startsWith(' ') || sourceDir.endsWith(' ')) {
+    message = 'Целевая папка начинаются с пробела или закачиваются пробелом';
+    return;
+  } else if (targetDir.startsWith(' ') || targetDir.endsWith(' ')) {
+    message = 'Папка назначения начинаются с пробела или закачиваются пробелом';
+    return;
   }
+  try {
+    const folderList = await readdir(sourceDir);
+    await mkdir(targetDir, { recursive: true });
+    folderList.forEach(async item => {
+      const stats = await stat(`${sourceDir}/${item}`);
+      if (stats.isFile()) {
+        await copyFile(`${sourceDir}/${item}`, `${targetDir}/${item}`);
+      } else if (stats.isDirectory()) {
+        copyFolder(`${sourceDir}/${item}`, `${targetDir}/${item}`, callback);
+      } else {
+        message = 'неизвестный тип';
+        return;
+      }
+    });
+  } catch (error) {
+    message = error;
+  }
+  callback(message);
 };
 
-appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 2\n`);
-appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 3\n`);
-appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 4\n`);
-
-setTimeout(() => {
-  appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 5\n`);
-}, 2000);
-
-setTimeout(() => {
-  appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 6\n`);
-}, 5000);
+copyFolder('./files', './newFolder', logCopy);
