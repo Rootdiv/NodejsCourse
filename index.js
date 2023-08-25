@@ -1,25 +1,48 @@
-import { EventEmitter } from 'node:events';
+import { appendFile, stat } from 'node:fs/promises';
 
-//Задание 1
-class TimerEvent extends EventEmitter {}
+const checkFileStats = async path => {
+  try {
+    const stats = await stat(path);
+    const statsPath = {
+      'Файл или папка': path,
+      'Размер файла в байтах': stats.size,
+      'Дата создания файла': stats.birthtime,
+      'Дата последнего изменения': stats.mtime,
+    };
 
-const timerEvent = new TimerEvent();
-
-timerEvent.addListener('tick', tick => {
-  console.log('Tick -', tick);
-});
-
-let num = 1;
-
-const timer = tick => {
-  timerEvent.emit('tick', tick);
+    if (stats.isFile()) {
+      statsPath.type = 'Это файл';
+    } else if (stats.isDirectory()) {
+      statsPath.type = 'Это каталог';
+    } else {
+      statsPath.type = 'Это неизвестный тип';
+    }
+    console.log(statsPath);
+  } catch (err) {
+    console.error('Ошибка получения информации о файле', err);
+  }
 };
 
-const intervalID = setInterval(() => {
-  timer(num++);
-  if (num > 8) {
-    clearInterval(intervalID);
-  }
-}, 1000);
+checkFileStats('./files');
+checkFileStats('./files/newCopy.txt');
 
-//Задание 2 в файле task2.js
+const appendToFile = async (filePath, data) => {
+  try {
+    await appendFile(filePath, data);
+    console.log('Данные успешно записались в файл');
+  } catch (err) {
+    console.error('Ошибка при записи в файл', err);
+  }
+};
+
+appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 2\n`);
+appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 3\n`);
+appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 4\n`);
+
+setTimeout(() => {
+  appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 5\n`);
+}, 2000);
+
+setTimeout(() => {
+  appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 6\n`);
+}, 5000);

@@ -1,7 +1,7 @@
 {
-  "name": "event-event-emmiter",
+  "name": "file-system",
   "version": "1.0.0",
-  "description": "Event / EventEmmiter",
+  "description": "Files system",
   "main": "index.js",
   "scripts": {
     "start": "node index",
@@ -11,7 +11,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson04"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson05"
   },
   "keywords": [
     "package",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson04#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson05#readme",
   "devDependencies": {
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
