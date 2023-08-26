@@ -1,48 +1,76 @@
-import { appendFile, stat } from 'node:fs/promises';
+import { EventEmitter } from 'node:events';
+import { appendFile, copyFile, stat, open } from 'node:fs/promises';
 
-const checkFileStats = async path => {
-  try {
-    const stats = await stat(path);
-    const statsPath = {
-      'Файл или папка': path,
-      'Размер файла в байтах': stats.size,
-      'Дата создания файла': stats.birthtime,
-      'Дата последнего изменения': stats.mtime,
-    };
+class Logger extends EventEmitter {
+  constructor(filename, maxSize) {
+    super();
+    this.filename = filename;
+    this.maxSize = maxSize;
+    this.logQueue = [];
+    this.writing = false;
+  }
 
-    if (stats.isFile()) {
-      statsPath.type = 'Это файл';
-    } else if (stats.isDirectory()) {
-      statsPath.type = 'Это каталог';
+  log(message) {
+    this.logQueue.unshift(message);
+    if (!this.writing) {
+      this.writeLog();
     } else {
-      statsPath.type = 'Это неизвестный тип';
+      this.writing = true;
     }
-    console.log(statsPath);
-  } catch (err) {
-    console.error('Ошибка получения информации о файле', err);
   }
-};
 
-checkFileStats('./files');
-checkFileStats('./files/newCopy.txt');
+  async writeLog() {
+    this.emit('messageLogged', this.logQueue);
+    try {
+      await appendFile(this.filename, `${this.logQueue}\n`);
+      this.logQueue = [];
+    } catch (err) {
+      console.error('Ошибка при записи в файл', err);
+    }
 
-const appendToFile = async (filePath, data) => {
-  try {
-    await appendFile(filePath, data);
-    console.log('Данные успешно записались в файл');
-  } catch (err) {
-    console.error('Ошибка при записи в файл', err);
+    this.checkFileSize();
+
+    if (this.logQueue.length < 0) {
+      this.writeLog();
+    } else {
+      this.writing = false;
+    }
   }
-};
 
-appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 2\n`);
-appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 3\n`);
-appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 4\n`);
+  async getFileSize() {
+    try {
+      const statLog = await stat(this.filename);
+      return statLog.size;
+    } catch (err) {
+      console.error('Ошибка получения информации о файле', err);
+      return 0;
+    }
+  }
 
-setTimeout(() => {
-  appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 5\n`);
-}, 2000);
+  async checkFileSize() {
+    if ((await this.getFileSize()) > this.maxSize) {
+      this.rotateLog();
+    }
+  }
 
-setTimeout(() => {
-  appendToFile('./files/newCopy.txt', `${new Date().toISOString()}: Допиши текст 6\n`);
-}, 5000);
+  async rotateLog() {
+    let filehandle = null;
+    try {
+      await copyFile(this.filename, `${this.filename}.bak`);
+      filehandle = await open(this.filename, 'r+');
+      await filehandle.truncate(0);
+    } finally {
+      await filehandle?.close();
+    }
+  }
+}
+
+const logger = new Logger('log.txt', 1024);
+
+logger.on('messageLogged', message => {
+  console.log('Записано сообщение:', message);
+});
+
+logger.log('Первое сообщение');
+
+logger.log('Второе сообщение');
