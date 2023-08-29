@@ -1,17 +1,21 @@
-import { createReadStream, createWriteStream } from 'node:fs';
-import { pipeline } from 'node:stream/promises';
+import { Buffer } from 'node:buffer';
 
-const copy = async (from, to) => {
-  try {
-    await pipeline(
-      createReadStream(from),
-      // любые стримы, например упаковка или распаковка
-      createWriteStream(to),
-    );
-    console.log('ready');
-  } catch (err) {
-    console.error(err);
-  }
+const textToBuffer = (text, encoding) => Buffer.from(text, encoding);
+
+const bufferToText = (buffer, encoding) => {
+  const data = Buffer.from(buffer, encoding);
+  return data.toString('utf8');
 };
 
-copy('./files/ShamanKing.mp3', './files/test.mp3');
+//Проверка решения
+const text = 'Привет мир!';
+const utf8Buffer = textToBuffer(text, 'utf8');
+console.log(utf8Buffer);
+const decodedText = bufferToText(utf8Buffer, 'utf8');
+console.log(decodedText);
+
+const text2 = '0J/RgNC40LLQtdGCINC80LjRgCE=';
+const base64Buffer = textToBuffer(text2, 'base64');
+console.log(base64Buffer);
+const decodedText2 = bufferToText(base64Buffer, 'base64');
+console.log(decodedText2);
