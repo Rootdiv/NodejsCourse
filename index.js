@@ -14,7 +14,7 @@ console.log(utf8Buffer);
 const decodedText = bufferToText(utf8Buffer, 'utf8');
 console.log(decodedText);
 
-const text2 = '0J/RgNC40LLQtdGCINC80LjRgCE=';
+const text2 = 'SGVsbG8gV29ybGQh';
 const base64Buffer = textToBuffer(text2, 'base64');
 console.log(base64Buffer);
 const decodedText2 = bufferToText(base64Buffer, 'base64');
