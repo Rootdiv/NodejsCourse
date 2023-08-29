@@ -1,17 +1,22 @@
 import { createReadStream, createWriteStream } from 'node:fs';
-import { pipeline } from 'node:stream/promises';
+import { readdir } from 'node:fs/promises';
 
-const copy = async (from, to) => {
+const findAndConcatTxt = async (path, resultFile) => {
+  const wStream = createWriteStream(resultFile);
   try {
-    await pipeline(
-      createReadStream(from),
-      // любые стримы, например упаковка или распаковка
-      createWriteStream(to),
-    );
-    console.log('ready');
+    const folderList = await readdir(path);
+    folderList.forEach(file => {
+      const ext = file.split('.').pop();
+      if (/txt/i.test(ext)) {
+        const rStream = createReadStream(`${path}/${file}`);
+        rStream.on('data', chunk => {
+          wStream.write(`[${file}]\n${chunk}\n\n`);
+        });
+      }
+    });
   } catch (err) {
-    console.error(err);
+    console.error('Произошла ошибка', err);
   }
 };
 
-copy('./files/ShamanKing.mp3', './files/test.mp3');
+findAndConcatTxt('./files', './concat.txt');
