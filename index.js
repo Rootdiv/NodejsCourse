@@ -1,17 +1,29 @@
 import { createReadStream, createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
+import sharp from 'sharp';
 
-const copy = async (from, to) => {
+const resizeImage = async (inputPath, outputPath) => {
+  const rStream = createReadStream(inputPath);
+  const wStream = createWriteStream(outputPath);
+  const resized = sharp().resize(400, 400).toFormat('jpeg');
   try {
-    await pipeline(
-      createReadStream(from),
-      // любые стримы, например упаковка или распаковка
-      createWriteStream(to),
-    );
-    console.log('ready');
+    await pipeline(rStream, resized, wStream);
   } catch (err) {
     console.error(err);
   }
 };
 
-copy('./files/ShamanKing.mp3', './files/test.mp3');
+resizeImage('./files/vscode.jpg', './files/resized.jpg');
+
+const colorImage = async (inputPath, outputPath) => {
+  const rStream = createReadStream(inputPath);
+  const wStream = createWriteStream(outputPath);
+  const resized = sharp().grayscale().blur(2.5).toFormat('jpeg');
+  try {
+    await pipeline(rStream, resized, wStream);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+colorImage('./files/vscode.jpg', './files/color.jpg');
