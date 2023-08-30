@@ -2,10 +2,7 @@ import { Buffer } from 'node:buffer';
 
 const textToBuffer = (text, encoding) => Buffer.from(text, encoding);
 
-const bufferToText = (buffer, encoding) => {
-  const data = Buffer.from(buffer, encoding);
-  return data.toString('utf8');
-};
+const bufferToText = (buffer, encoding) => Buffer.from(buffer, encoding).toString('utf8');
 
 //Проверка решения
 const text = 'Привет мир!';
