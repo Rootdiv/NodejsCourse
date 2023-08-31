@@ -8,3 +8,4 @@
 - [Тема 4. Event / EventEmitter](https://github.com/Rootdiv/NodejsCourse/tree/lesson04)
 - [Тема 5. Файловая система](https://github.com/Rootdiv/NodejsCourse/tree/lesson05)
 - [Тема 6. Buffer & Stream](https://github.com/Rootdiv/NodejsCourse/tree/lesson06)
+- [Тема 7. process и readline](https://github.com/Rootdiv/NodejsCourse/tree/lesson07)
