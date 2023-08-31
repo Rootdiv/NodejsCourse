@@ -19,44 +19,88 @@ const clear = () => {
   write('printf \x1bc');
 };
 
+const pos = (row, col) => {
+  write(`\x1b[${row};${col}H`);
+};
+
+const box = (row, col, height, width) => {
+  const border = ['┌', '─', '┐', '│', '└', '┘'];
+  const w = width - 2;
+  const h = height - 2;
+  pos(row, col);
+  write(border[0] + border[1].repeat(w) + border[2]);
+  for (let i = 1; i < h; i++) {
+    pos(row + i, col);
+    write(border[3] + ' '.repeat(w) + border[3]);
+  }
+  pos(row + h, col);
+  write(border[4] + border[1].repeat(w) + border[5]);
+};
+
 let questionCount = 0;
 let answerCount = 0;
+const answerIndex = [];
 
 const data = await readFile('./question.json');
 const questions = JSON.parse(data.toString('utf-8'));
 
+const showProgress = () => {
+  clear();
+  box(1, 0, 7, 26);
+  pos(2, 3);
+  write(`\x1b[34mВопросов: ${questionCount} из ${questions.length}\x1b[0m`);
+  box(3, 3, 4, 22);
+  let i = 0;
+  for (i; i < questionCount; i++) {
+    if (answerIndex.includes(i)) {
+      pos(4, 5 + i);
+      write('\x1b[42m \x1b[0m');
+    } else {
+      pos(4, 5 + i);
+      write('\x1b[41m \x1b[0m');
+    }
+  }
+
+  for (let j = i + 1; j <= questions.length; j++) {
+    pos(4, 5 + j);
+    write(' ');
+  }
+  pos(7, 0);
+};
+
 const endQuiz = answerCount => {
+  showProgress();
   write('\nОпрос закончен.\n');
   write(`Вы правильно ответили на ${answerCount} вопросов\n`);
   rl.close();
 };
 
 const quiz = async () => {
+  showProgress();
   const question = questions[questionCount];
-  write(`\n${question.question}`);
+  write(`\n\x1b[32m${question.question}\x1b[0m`);
 
   const options = question.options;
   for (let i = 0; i <= options.length; i++) {
-    write(`\n${i + 1}. ${options[i]}`);
+    write(`\n${i + 1}: ${options[i]}`);
   }
 
-  const answer = await rl.question('Ваш ответ: ');
+  const answer = await rl.question('\n\x1b[34mВаш ответ: \x1b[0m');
 
   if (+answer === 0) {
     endQuiz(answerCount);
     return;
   }
   if (isNaN(+answer) || +answer < 0 || +answer > options.length) {
-    write('Ответ некорректный! Попробуйте еще раз.\n');
+    write('\x1b[31mОтвет некорректный! Попробуйте еще раз.\x1b[0m\n');
     quiz(question);
   } else {
     questionCount++;
     if (+answer === question.correctIndex + 1) {
-      write('Правильный ответ!\n');
+      answerIndex.push(questionCount - 1);
       answerCount++;
       quiz(question);
     } else {
-      write('Неправильный ответ.\n');
       quiz(question);
     }
   }
