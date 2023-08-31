@@ -60,7 +60,7 @@ const quiz = async () => {
       quiz(question);
     }
   }
-  if (questionCount >= 18) {
+  if (questionCount >= questions.length) {
     endQuiz(answerCount);
     return;
   }
