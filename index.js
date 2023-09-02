@@ -19,6 +19,9 @@ const clear = () => {
   write('printf \x1bc');
 };
 
+const declOfNum = (num, words) =>
+  num + ' ' + words[num % 100 > 4 && num % 100 < 20 ? 2 : [2, 0, 1, 1, 1, 2][num % 10 < 5 ? Math.abs(num) % 10 : 5]];
+
 const pos = (row, col) => {
   write(`\x1b[${row};${col}H`);
 };
@@ -40,6 +43,7 @@ const box = (row, col, height, width) => {
 let questionCount = 0;
 let answerCount = 0;
 const answerIndex = [];
+let showError = false;
 
 const data = await readFile('./question.json');
 const questions = JSON.parse(data.toString('utf-8'));
@@ -65,13 +69,17 @@ const showProgress = () => {
     pos(4, 5 + j);
     write(' ');
   }
+  if (showError) {
+    pos(7, 0);
+    write('\x1b[31mОтвет некорректный! Попробуйте еще раз.\x1b[0m\n');
+  }
   pos(7, 0);
 };
 
 const endQuiz = answerCount => {
   showProgress();
   write('\nОпрос закончен.\n');
-  write(`Вы правильно ответили на ${answerCount} вопросов\n`);
+  write(`Вы правильно ответили на ${declOfNum(answerCount, 'вопрос', 'вопроса', 'вопросов')}\n`);
   rl.close();
 };
 
@@ -92,9 +100,10 @@ const quiz = async () => {
     return;
   }
   if (isNaN(+answer) || +answer < 0 || +answer > options.length) {
-    write('\x1b[31mОтвет некорректный! Попробуйте еще раз.\x1b[0m\n');
+    showError = true;
     quiz(question);
   } else {
+    showError = false;
     questionCount++;
     if (+answer === question.correctIndex + 1) {
       answerIndex.push(questionCount - 1);
