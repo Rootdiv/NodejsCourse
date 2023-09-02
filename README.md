@@ -9,3 +9,4 @@
 - [Тема 5. Файловая система](https://github.com/Rootdiv/NodejsCourse/tree/lesson05)
 - [Тема 6. Buffer & Stream](https://github.com/Rootdiv/NodejsCourse/tree/lesson06)
 - [Тема 7. process и readline](https://github.com/Rootdiv/NodejsCourse/tree/lesson07)
+- [Тема 8. CLI - приложение](https://github.com/Rootdiv/NodejsCourse/tree/lesson08)
