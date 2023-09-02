@@ -19,6 +19,9 @@ const clear = () => {
   write('printf \x1bc');
 };
 
+const declOfNum = (num, words) =>
+  num + ' ' + words[num % 100 > 4 && num % 100 < 20 ? 2 : [2, 0, 1, 1, 1, 2][num % 10 < 5 ? Math.abs(num) % 10 : 5]];
+
 let questionCount = 0;
 let answerCount = 0;
 
@@ -27,7 +30,7 @@ const questions = JSON.parse(data.toString('utf-8'));
 
 const endQuiz = answerCount => {
   write('\nОпрос закончен.\n');
-  write(`Вы правильно ответили на ${answerCount} вопросов\n`);
+  write(`Вы правильно ответили на ${declOfNum(answerCount, 'вопрос', 'вопроса', 'вопросов')}\n`);
   rl.close();
 };
 
