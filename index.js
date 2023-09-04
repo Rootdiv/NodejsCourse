@@ -64,6 +64,10 @@ const app = async () => {
     process.exit();
   }
 
+  if (args.v || args.version) {
+    console.log('Версия 0.0.3');
+  }
+
   const password = generatePassword(options);
   writePass(password);
 };
