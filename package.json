@@ -1,7 +1,7 @@
 {
-  "name": "file-system",
+  "name": "buffer-and-stream",
   "version": "1.0.0",
-  "description": "Files system",
+  "description": "Buffer & Stream",
   "main": "index.js",
   "scripts": {
     "start": "node index",
@@ -11,7 +11,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson05"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson06"
   },
   "keywords": [
     "package",
@@ -23,13 +23,13 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson05#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson06#readme",
   "devDependencies": {
-    "eslint": "^8.47.0",
+    "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "nodemon": "^3.0.1",
-    "prettier": "^3.0.2",
+    "prettier": "^3.0.3",
     "sharp": "^0.32.5"
   }
 }
