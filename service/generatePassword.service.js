@@ -19,5 +19,5 @@ export const generatePassword = option => {
   arr.length = option.length;
 
   const password = arr.join('');
-  console.log('password: ', password);
+  return password;
 };
