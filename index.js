@@ -1,71 +1,52 @@
-#!/usr/bin/env node
-
+import readline from 'node:readline/promises';
 import process from 'node:process';
-import { argsParse } from './util/argsParse.js';
-import { generatePassword } from './service/generatePassword.service.js';
-import { getPasswordOptions } from './service/getPasswordOptions.service.js';
-import { writePass } from './util/writePass.util.js';
-import { getSetting, saveSetting } from './service/setting.service.js';
+import { readdir, stat, readFile, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 
-const app = async () => {
-  const args = argsParse(process.argv, ['ask', 'setting']);
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-  const options = {
-    length: 8,
-    uppercase: false,
-    number: false,
-    special: false,
-  };
-
-  if (!args.setting) {
-    const setting = await getSetting();
-    Object.assign(options, setting);
-  }
-
-  if (args.a || args.ask) {
-    console.log('Ответьте на вопросы:');
-    const options = await getPasswordOptions();
-    const password = generatePassword(options);
-    writePass(password);
-  }
-
-  if (args.h || args.help) {
-    console.log(`
-      -h --help      | список команд (игнор других команд)
-      -l --length    | длинна пароля
-      -u --uppercase | включить заглавные буквы
-      -n --number    | включить числа
-      -s --special   | включить спецсимволы
-      ask -a         | провести опрос (игнор других команд)
-      setting        | сохраняет пароль из парамеров -l -u -n -s
-    `);
-    process.exit();
-  }
-
-  if (args.l || args.length) {
-    options.length = +(args.l || args.length);
-  }
-
-  if (args.u || args.uppercase) {
-    options.uppercase = args.u || args.uppercase;
-  }
-
-  if (args.n || args.number) {
-    options.number = args.n || args.number;
-  }
-
-  if (args.s || args.special) {
-    options.special = args.s || args.special;
-  }
-
-  if (args.setting) {
-    await saveSetting(options);
-    process.stdout.write('Настройки сохранены!\n');
-    process.exit();
-  }
-
-  const password = generatePassword(options);
-  writePass(password);
+const write = str => {
+  process.stdout.write(str);
 };
 
-app();
+const findDir = await rl.question('Введите путь к директории: ');
+const findStr = await rl.question('Введите строку для поиска: ');
+const newStr = await rl.question('Введите строку для замены: ');
+
+const findAndReplace = async sourceDir => {
+  if (sourceDir.trim() === '' || sourceDir.trim() === '') {
+    write('Не указана директория поиска\n');
+    rl.close();
+    return;
+  } else if (sourceDir.startsWith(' ') || sourceDir.endsWith(' ')) {
+    write('Директория поиска начинаются с пробела или закачиваются пробелом\n');
+    rl.close();
+    return;
+  }
+  try {
+    const folderList = await readdir(sourceDir);
+    folderList.forEach(async item => {
+      const stats = await stat(`${sourceDir}/${item}`);
+      if (stats.isFile() && path.extname(item) === '.txt') {
+        const filePath = path.join(sourceDir, item);
+        const fileTxt = await readFile(filePath, { encoding: 'utf-8' });
+        const newFileTxt = fileTxt.replaceAll(findStr, newStr);
+        await writeFile(filePath, newFileTxt);
+      } else if (stats.isDirectory()) {
+        findAndReplace(`${sourceDir}/${item}`);
+      } else {
+        write('Неизвестный тип файла');
+        return;
+      }
+      rl.close();
+    });
+  } catch (error) {
+    write(`Произошла ошибка: ${error}\n`);
+    rl.close();
+  }
+};
+
+findAndReplace(findDir);
