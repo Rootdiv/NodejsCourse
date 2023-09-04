@@ -1,13 +1,11 @@
-# Основы Node.js
+# Generate password cli
 
-Курс "Основы Node.js" с 15 августа 2023 до 20 сентября 2023 года.
+## Training project
 
-- [Тема 1. Введение в Node.js. Event Loop](https://github.com/Rootdiv/NodejsCourse/tree/lesson01)
-- [Тема 2. REPL / Module / Package](https://github.com/Rootdiv/NodejsCourse/tree/lesson02)
-- [Тема 3. NPM - пакет с пакетами](https://github.com/Rootdiv/NodejsCourse/tree/lesson03)
-- [Тема 4. Event / EventEmitter](https://github.com/Rootdiv/NodejsCourse/tree/lesson04)
-- [Тема 5. Файловая система](https://github.com/Rootdiv/NodejsCourse/tree/lesson05)
-- [Тема 6. Buffer & Stream](https://github.com/Rootdiv/NodejsCourse/tree/lesson06)
-- [Тема 7. process и readline](https://github.com/Rootdiv/NodejsCourse/tree/lesson07)
-- [Тема 8. CLI - приложение](https://github.com/Rootdiv/NodejsCourse/tree/lesson08)
-- [Тема 9. OS & path](https://github.com/Rootdiv/NodejsCourse/tree/lesson09)
+- -h --help - список команд (игнор других команд)
+- -l --length - длинна пароля
+- -u --uppercase - включить заглавные буквы
+- -n --number - включить числа
+- -s --special - включить спецсимволы
+- ask -a - провести опрос (игнор других команд)
+- setting - сохраняет пароль из парамеров -l -u -n -s

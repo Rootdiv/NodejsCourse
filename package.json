@@ -1,8 +1,11 @@
 {
-  "name": "file-system",
-  "version": "1.0.0",
-  "description": "Files system",
+  "name": "genpass-rootdiv",
+  "version": "0.0.1",
+  "description": "Generate password cli training project",
   "main": "index.js",
+  "bin": {
+    "genpass": "index.js"
+  },
   "scripts": {
     "start": "node index",
     "dev": "nodemon index",
@@ -11,24 +14,25 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson05"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson09_npm"
   },
   "keywords": [
-    "package",
-    "methed",
-    "node"
+    "generate password",
+    "password",
+    "cli",
+    "training project"
   ],
   "author": "Vladimir <web-master@rootdiv.ru>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson05#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson09_npm#readme",
   "devDependencies": {
-    "eslint": "^8.47.0",
+    "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "nodemon": "^3.0.1",
-    "prettier": "^3.0.2"
+    "prettier": "^3.0.3"
   }
 }
