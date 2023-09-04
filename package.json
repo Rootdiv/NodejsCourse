@@ -1,7 +1,7 @@
 {
-  "name": "cli-app",
+  "name": "os-and-path",
   "version": "1.0.0",
-  "description": "CLI - приложение",
+  "description": "OS & path",
   "main": "index.js",
   "scripts": {
     "start": "node index",
@@ -11,7 +11,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson08"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson09"
   },
   "keywords": [
     "package",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson08#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson09#readme",
   "devDependencies": {
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",

@@ -5,6 +5,6 @@ export const addTask = async task => {
   const todoList = JSON.parse((await readTodo('./todo.json')) || '[]');
   const id = (todoList[todoList.length - 1]?.id || 0) + 1;
   const newTask = { id, status: 'В работе', task };
-  writeTodo('./todo.json', JSON.stringify([...todoList, newTask]));
+  writeTodo('./todo.json', JSON.stringify([...todoList, newTask], null, 2));
   console.log(`Задача добавлена с идентификатором ${id}`);
 };

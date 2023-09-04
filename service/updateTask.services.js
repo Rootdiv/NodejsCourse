@@ -11,5 +11,5 @@ export const updateTask = async (id, task) => {
       console.log(`Задача с идентификатором ${item.id} обновлена`);
     }
   });
-  writeTodo('./todo.json', JSON.stringify(todoList));
+  writeTodo('./todo.json', JSON.stringify(todoList, null, 2));
 };

@@ -11,5 +11,5 @@ export const changeStatusTask = async (id, status) => {
       console.log(`Статус задачи с идентификатором ${item.id} обновлён`);
     }
   });
-  writeTodo('./todo.json', JSON.stringify(todoList));
+  writeTodo('./todo.json', JSON.stringify(todoList, null, 2));
 };

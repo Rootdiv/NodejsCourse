@@ -11,5 +11,5 @@ export const delTask = async id => {
       console.log(`Задача с идентификатором ${id} удалена`);
     }
   });
-  writeTodo('./todo.json', JSON.stringify(todoList));
+  writeTodo('./todo.json', JSON.stringify(todoList, null, 2));
 };

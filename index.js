@@ -8,9 +8,10 @@ import { getTodo } from './service/getTodo.services.js';
 import { delTask } from './service/delTask.services.js';
 import { updateTask } from './service/updateTask.services.js';
 import { changeStatusTask } from './service/changeStatusTask.services.js';
+import { saveTodo } from './service/saveTodo.services.js';
 
 const app = () => {
-  const args = argsParse(process.argv, ['add', 'list', 'get', 'update', 'status', 'delete']);
+  const args = argsParse(process.argv, ['add', 'list', 'get', 'update', 'status', 'delete', 'save']);
 
   if (args.h || args.help) {
     console.log(`
@@ -21,6 +22,7 @@ const app = () => {
       update <id> <newTask>   : обновить задачу с указанным идентификатором.
       status <id> <newStatus> : обновить статус задачи с указанным идентификатором.
       delete <id>             : удалить задачу с указанным идентификатором.
+      save                    : сохранить список задач в папке пользователя (homedir).
     `);
     return;
   }
@@ -52,6 +54,11 @@ const app = () => {
 
   if (args.delete) {
     delTask(args.delete);
+    return;
+  }
+
+  if (args.save) {
+    saveTodo();
     return;
   }
 
