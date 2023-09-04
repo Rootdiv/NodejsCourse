@@ -1,7 +1,7 @@
 {
-  "name": "event-event-emmiter",
+  "name": "event-event-emitter",
   "version": "1.0.0",
-  "description": "Event / EventEmmiter",
+  "description": "Event / EventEmitter",
   "main": "index.js",
   "scripts": {
     "start": "node index",
