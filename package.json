@@ -1,6 +1,6 @@
 {
   "name": "genpass-rootdiv",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Generate password cli training project",
   "main": "index.js",
   "bin": {

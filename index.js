@@ -60,6 +60,7 @@ const app = async () => {
 
   if (args.setting) {
     await saveSetting(options);
+    process.stdout.write('Настройки сохранены!\n');
     process.exit();
   }
 
