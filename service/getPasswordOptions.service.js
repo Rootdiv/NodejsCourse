@@ -30,38 +30,38 @@ export const getPasswordOptions = async () => {
   }
 
   write('Для включения опций нужно ответить Д(а) или Y(es)\n');
-  const uppercase = await rl.question('Включить заглавные буквы: ');
+  const uppercase = await rl.question('Включить заглавные буквы? ');
   if (
     uppercase.toLowerCase() === 'y' ||
     uppercase.toLowerCase() === 'yes' ||
     uppercase.toLowerCase() === 'д' ||
     uppercase.toLowerCase() === 'да'
   ) {
-    options.uppercase = uppercase;
+    options.uppercase = true;
   } else {
     options.uppercase = false;
   }
 
-  const number = await rl.question('Включить цифры: ');
+  const number = await rl.question('Включить цифры? ');
   if (
     number.toLowerCase() === 'y' ||
     uppercase.toLowerCase() === 'yes' ||
     number.toLowerCase() === 'д' ||
     uppercase.toLowerCase() === 'да'
   ) {
-    options.number = number;
+    options.number = true;
   } else {
     options.number = false;
   }
 
-  const special = await rl.question('Включить спецсимволы: ');
+  const special = await rl.question('Включить спецсимволы? ');
   if (
     special.toLowerCase() === 'y' ||
     uppercase.toLowerCase() === 'yes' ||
     special.toLowerCase() === 'д' ||
     uppercase.toLowerCase() === 'да'
   ) {
-    options.special = special;
+    options.special = true;
   } else {
     options.special = false;
   }
