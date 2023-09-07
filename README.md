@@ -11,3 +11,4 @@
 - [Тема 7. process и readline](https://github.com/Rootdiv/NodejsCourse/tree/lesson07)
 - [Тема 8. CLI - приложение](https://github.com/Rootdiv/NodejsCourse/tree/lesson08)
 - [Тема 9. OS & path](https://github.com/Rootdiv/NodejsCourse/tree/lesson09)
+- [Тема 10. HTTP-запросы, http модуль](https://github.com/Rootdiv/NodejsCourse/tree/lesson10)

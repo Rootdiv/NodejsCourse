@@ -1,7 +1,7 @@
 {
-  "name": "os-and-path",
+  "name": "http",
   "version": "1.0.0",
-  "description": "OS & path",
+  "description": "HTTP-запросы, http модуль",
   "main": "index.js",
   "scripts": {
     "start": "node index",
@@ -11,7 +11,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson09"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson10"
   },
   "keywords": [
     "package",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson09#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson10#readme",
   "devDependencies": {
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
