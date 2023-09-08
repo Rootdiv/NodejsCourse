@@ -1,7 +1,7 @@
 {
-  "name": "http",
+  "name": "https-headers-env",
   "version": "1.0.0",
-  "description": "HTTP-запросы, http модуль",
+  "description": "HTTPS / Заголовки HTTP / Переменные окружения (env)",
   "main": "index.js",
   "scripts": {
     "start": "node index",
@@ -11,7 +11,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson10"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson11"
   },
   "keywords": [
     "package",
@@ -23,8 +23,9 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson10#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson11#readme",
   "devDependencies": {
+    "dotenv": "^16.3.1",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",

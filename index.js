@@ -1,153 +1,19 @@
-import http from 'node:http';
+import 'dotenv/config';
 
-const options = {
-  hostname: 'jsonplaceholder.typicode.com',
-  path: '/users',
-  prot: 80,
-  headers: {
-    'Content-type': 'application/json; charset=UTF-8',
-    'User-Agent': 'MethedApp/1.0',
-  },
-};
+const port = process.env.PORT || 3000;
+console.log('port: ', port);
 
-const sendGetRequest = async () => {
-  try {
-    const data = await new Promise((resolve, reject) => {
-      const req = http.request(options, res => {
-        let data = '';
-        res.on('data', chunk => {
-          data += chunk;
-        });
-        res.on('end', () => {
-          resolve(data);
-        });
-      });
-      req.on('error', err => {
-        reject(err);
-      });
-      req.end();
-    });
-    console.log('Response data for GET request');
-    console.log(JSON.parse(data));
-  } catch (err) {
-    console.error(err);
-  }
-  // const req = http.request(options, res => {
-  //   let data = '';
-  //   res.on('data', chunk => {
-  //     data += chunk;
-  //   });
-  //   res.on('end', () => {
-  //     console.log('Response data for GET request');
-  //     console.log(data);
-  //   });
-  // });
-  // req.on('error', err => {
-  //   console.error(err);
-  // });
-  // req.end();
-};
-sendGetRequest();
+// const dbUrl = process.env.DB_URL;
+// connectToDatabase(dbUrl);
 
-const sendPostRequest = () => {
-  options.method = 'POST';
-  const req = http.request(options, res => {
-    let data = '';
-    res.on('data', chunk => {
-      data += chunk;
-    });
-    res.on('end', () => {
-      console.log('Response data for POST request');
-      console.log(data);
-    });
-  });
-  req.on('error', err => {
-    console.error(err);
-  });
-  const postData = JSON.stringify({
-    title: 'NodeJS',
-    body: 'Testing data transmission in node.js',
-    userId: 46,
-  });
-  req.write(postData);
-  req.end();
-};
-sendPostRequest();
+// const apiKey = process.env.API_KEY;
+// authenticateUser(username, password, process.env.SECRET_KEY);
 
-const sendPutRequest = () => {
-  options.method = 'PUT';
-  options.path = '/posts/1';
-  const req = http.request(options, res => {
-    let data = '';
-    res.on('data', chunk => {
-      data += chunk;
-    });
-    res.on('end', () => {
-      console.log('Response data for PUT request');
-      console.log(data);
-    });
-  });
-  req.on('error', err => {
-    console.error(err);
-  });
-  const postData = JSON.stringify({
-    title: 'NodeJS',
-    body: 'Testing data transmission in node.js',
-    userId: 46,
-  });
-  req.write(postData);
-  req.end();
-};
-sendPutRequest();
+if (process.env.DEBUG_MODE) {
+  //Булевы значения всегда будут проходить проверку
+  //так как все значения переменных хранятся в виде строк
+  // enableDebugger();
+}
 
-const sendPatchRequest = () => {
-  options.method = 'PATCH';
-  options.path = '/posts/1';
-  const req = http.request(options, res => {
-    let data = '';
-    res.on('data', chunk => {
-      data += chunk;
-    });
-    res.on('end', () => {
-      console.log('Response data for PATCH request');
-      console.log(data);
-    });
-  });
-  req.on('error', err => {
-    console.error(err);
-  });
-  const postData = JSON.stringify({
-    title: 'NodeJS',
-    // body: 'Testing data transmission in node.js',
-    userId: 46,
-  });
-  req.write(postData);
-  req.end();
-};
-sendPatchRequest();
-
-const sendDeleteRequest = () => {
-  options.method = 'DELETE';
-  options.path = '/posts/46';
-  const req = http.request(options, res => {
-    let data = '';
-    res.on('data', chunk => {
-      data += chunk;
-    });
-    res.on('end', () => {
-      console.log('Response data for DELETE request');
-      console.log(data);
-    });
-  });
-  req.on('error', err => {
-    console.error(err);
-  });
-  const postData = JSON.stringify({
-    title: 'NodeJS',
-    // body: 'Testing data transmission in node.js',
-    userId: 46,
-  });
-  req.write(postData);
-  req.end();
-};
-sendDeleteRequest();
+const environment = process.env.NODE_ENV || 'development';
+console.log('environment: ', environment);
