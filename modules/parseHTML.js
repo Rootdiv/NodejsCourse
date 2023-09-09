@@ -8,10 +8,10 @@ export const parseHTML = data => {
   for (let i = 0; i < headersTags.length; i++) {
     while (
       (posHeader = data.indexOf(headersTags[i], posHeader + 1)) !== -1 &&
-      (lastPosHeader = data.indexOf(`${headersTags[i].slice(1)}>`, lastPosHeader + 1)) !== -1
+      (lastPosHeader = data.indexOf(`</${headersTags[i].slice(1)}>`, lastPosHeader + 1)) !== -1
     ) {
       numHeader++;
-      console.log(`${numHeader} ${data.substring(posHeader, lastPosHeader + 3)}`);
+      console.log(`${numHeader} ${data.substring(posHeader, lastPosHeader + 5)}`);
     }
   }
   console.log();
