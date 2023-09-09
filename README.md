@@ -12,3 +12,4 @@
 - [Тема 8. CLI - приложение](https://github.com/Rootdiv/NodejsCourse/tree/lesson08)
 - [Тема 9. OS & path](https://github.com/Rootdiv/NodejsCourse/tree/lesson09)
 - [Тема 10. HTTP-запросы, http модуль](https://github.com/Rootdiv/NodejsCourse/tree/lesson10)
+- [Тема 11. HTTPS / Заголовки HTTP / Переменные окружения (env)](https://github.com/Rootdiv/NodejsCourse/tree/lesson11)
