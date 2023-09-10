@@ -8,7 +8,7 @@ export const getNews = async query => {
     hostname: 'newsapi.org',
     path: `/v2/top-headlines?${stringify(query)}`,
     headers: {
-      'X-Api-Key': process.env.API_KEY,
+      'X-Api-Key': process.env.API_KEY || '',
       'Content-Type': 'application/json; charset=utf-8',
       'User-Agent': 'MethedApp/1.0',
     },
