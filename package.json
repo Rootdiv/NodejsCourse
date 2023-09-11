@@ -1,7 +1,7 @@
 {
-  "name": "https-headers-env",
+  "name": "zlib-and-crypto",
   "version": "1.0.0",
-  "description": "HTTPS / Заголовки HTTP / Переменные окружения (env)",
+  "description": "zlib & crypto",
   "main": "index.js",
   "scripts": {
     "start": "node index",
@@ -11,7 +11,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson11"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson12"
   },
   "keywords": [
     "package",
@@ -23,10 +23,10 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson11#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson12#readme",
   "devDependencies": {
     "dotenv": "^16.3.1",
-    "eslint": "^8.48.0",
+    "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "nodemon": "^3.0.1",

@@ -13,3 +13,4 @@
 - [Тема 9. OS & path](https://github.com/Rootdiv/NodejsCourse/tree/lesson09)
 - [Тема 10. HTTP-запросы, http модуль](https://github.com/Rootdiv/NodejsCourse/tree/lesson10)
 - [Тема 11. HTTPS / Заголовки HTTP / Переменные окружения (env)](https://github.com/Rootdiv/NodejsCourse/tree/lesson11)
+- [Тема 12. zlib & crypto](https://github.com/Rootdiv/NodejsCourse/tree/lesson12)
