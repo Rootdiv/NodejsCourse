@@ -3,6 +3,7 @@ import { createGunzip } from 'node:zlib';
 import crypto from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { parse } from 'node:path';
+import { pipeline } from 'node:stream/promises';
 
 export const decompress = async inputFilePath => {
   const extname = inputFilePath.split('.').pop();
@@ -20,20 +21,19 @@ export const decompress = async inputFilePath => {
     const dirName = dirPath === '.' ? '' : `${dirPath}/`;
     const outputFilePath = `${dirName}${newFileName}.${newExtName}`;
 
-    const input = createReadStream(inputFilePath);
-    const output = createWriteStream(outputFilePath);
-
-    input.pipe(createGunzip()).pipe(output);
+    await pipeline(createReadStream(inputFilePath), createGunzip(), createWriteStream(outputFilePath));
 
     const inputHashFilePath = `${dirName}${inputFilePath.slice(0, -3)}.sha256`;
     const inputHash = await readFile(inputHashFilePath);
     const data = await readFile(outputFilePath);
     const hash = crypto.createHash('sha256').update(data).digest('hex');
-    console.log('hash: ', hash);
-    console.log('inputHash: ', inputHash.toString('utf8'));
-    console.log(inputHash.toString() === hash);
 
-    console.log(`Данные успешно распакованы, файл находится по пути ${outputFilePath}`);
+    if (inputHash.toString() === hash) {
+      console.log(`Данные успешно распакованы, файл находится по пути ${outputFilePath}`);
+      console.log(`Контрольная сумма файла ${outputFilePath} верна`);
+    } else {
+      console.log(`Ошибка распаковки контрольная сумма файла ${outputFilePath} неверна`);
+    }
   } catch (err) {
     console.error('Произошла ошибка:', err);
   }
