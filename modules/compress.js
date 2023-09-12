@@ -18,7 +18,7 @@ export const compress = async inputFilePath => {
     const fileName = parse(inputFilePath).name;
     const dirPath = parse(inputFilePath).dir;
 
-    const dirName = dirPath === '.' ? '' : `${dirPath}/`;
+    const dirName = dirPath === '' ? './' : `${dirPath}/`;
     const outputFilePath = `${dirName}${fileName}_${extname}.gz`;
     const outputHashFilePath = `${dirName}${fileName}_${extname}.sha256`;
 
