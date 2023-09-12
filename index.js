@@ -1,31 +1,33 @@
-import crypto from 'node:crypto';
-//import { readFile } from 'node:fs/promises';
+#!/usr/bin/env node
 
-const key = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
+import process from 'node:process';
+import { argsParse } from './util/argsParse.js';
+import { compress } from './modules/compress.js';
+import { decompress } from './modules/decompress.js';
 
-const algorithm = 'aes-256-cbc';
-const text = 'Hello Node.js, Crypto';
+const app = () => {
+  const args = argsParse(process.argv);
 
-const cipher = crypto.createCipheriv(algorithm, key, iv);
-let encrypted = cipher.update(text, 'utf8', 'hex');
-encrypted += cipher.final('hex');
-console.log('encrypted:', encrypted);
+  if (args.h || args.help) {
+    console.log(`
+      -h --help         | список команд
+      -с <fileName>     | имя файла для архивации
+      -d <arcFileName>  | имя архивного файла для разархивации
+    `);
+    return;
+  }
 
-const decipher = crypto.createDecipheriv(algorithm, key, iv);
-let decrypted = decipher.update(encrypted, 'hex', 'utf8');
-decrypted += decipher.final('utf8');
-console.log('decrypted:', decrypted);
+  if (args.c) {
+    compress(args.c);
+    return;
+  }
 
-// const randomBytes = crypto.randomBytes(16);
-// console.log('randomBytes:', randomBytes);
-// console.log('randomBytes(string):', randomBytes.toString());
-// console.log('randomBytes(hex):', randomBytes.toString('hex'));
-// console.log('randomBytes(base64):', randomBytes.toString('base64'));
-// console.log('randomBytes(binary):', randomBytes.toString('latin1'));
+  if (args.d) {
+    decompress(args.d);
+    return;
+  }
 
-// const data = await readFile('public/favicon.svg');
-// console.log('data: ', data);
+  console.log('Не указаны обязательные аргументы, укажите -h или --help для вывода доступных команд');
+};
 
-// const hash = crypto.createHash('sha256').update(data).digest('hex');
-// console.log('hash: ', hash);
+app();
