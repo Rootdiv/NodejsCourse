@@ -1,31 +1,26 @@
-import crypto from 'node:crypto';
-//import { readFile } from 'node:fs/promises';
+import 'dotenv/config';
+import { readFile } from 'node:fs/promises';
+import { fetchValidTickers } from './modules/fetchValidTickers.js';
+import { fetchAndStoreData } from './modules/fetchAndStoreData.js';
+import { startServer } from './modules/startServer.js';
+import { TICKERS_FILE } from './modules/const.js';
 
-const key = crypto.randomBytes(32);
-const iv = crypto.randomBytes(16);
+const PORT = process.env.PORT || 3000;
 
-const algorithm = 'aes-256-cbc';
-const text = 'Hello Node.js, Crypto';
+try {
+  const validTickers = await fetchValidTickers();
 
-const cipher = crypto.createCipheriv(algorithm, key, iv);
-let encrypted = cipher.update(text, 'utf8', 'hex');
-encrypted += cipher.final('hex');
-console.log('encrypted:', encrypted);
+  const fileData = await readFile(TICKERS_FILE, 'utf8');
+  const tickers = JSON.parse(fileData);
 
-const decipher = crypto.createDecipheriv(algorithm, key, iv);
-let decrypted = decipher.update(encrypted, 'hex', 'utf8');
-decrypted += decipher.final('utf8');
-console.log('decrypted:', decrypted);
+  const server = startServer(tickers, validTickers);
+  server.listen(PORT, () => {
+    console.log(`Сервер запущен на порте ${PORT}`);
+  });
 
-// const randomBytes = crypto.randomBytes(16);
-// console.log('randomBytes:', randomBytes);
-// console.log('randomBytes(string):', randomBytes.toString());
-// console.log('randomBytes(hex):', randomBytes.toString('hex'));
-// console.log('randomBytes(base64):', randomBytes.toString('base64'));
-// console.log('randomBytes(binary):', randomBytes.toString('latin1'));
-
-// const data = await readFile('public/favicon.svg');
-// console.log('data: ', data);
-
-// const hash = crypto.createHash('sha256').update(data).digest('hex');
-// console.log('hash: ', hash);
+  setInterval(() => {
+    fetchAndStoreData(tickers);
+  }, 5000);
+} catch (err) {
+  console.error(`Ошибка при чтении из файла: ${err.message}`);
+}
