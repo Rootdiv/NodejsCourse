@@ -1,26 +1,60 @@
 import 'dotenv/config';
-import { readFile } from 'node:fs/promises';
-import { fetchValidTickers } from './modules/fetchValidTickers.js';
-import { fetchAndStoreData } from './modules/fetchAndStoreData.js';
-import { startServer } from './modules/startServer.js';
-import { TICKERS_FILE } from './modules/const.js';
+import { default as Knex } from 'knex';
 
-const PORT = process.env.PORT || 3000;
+const knex = Knex({
+  client: 'pg',
+  connection: {
+    host: process.env.DB_HOST,
+    //port: process.env.DB_PORT || 5432,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+  },
+});
 
-try {
-  const validTickers = await fetchValidTickers();
+const getAllUsers = async () => await knex('users');
 
-  const fileData = await readFile(TICKERS_FILE, 'utf8');
-  const tickers = JSON.parse(fileData);
+const addUser = async ({ name, phone, email, age }) => {
+  await knex('users').insert({ name, phone, email, age });
+  console.log('Пользователь успешно добавлен');
+};
 
-  const server = startServer(tickers, validTickers);
-  server.listen(PORT, () => {
-    console.log(`Сервер запущен на порте ${PORT}`);
+const updateUser = async (id, user) => {
+  await knex('users').where({ id }).update(user);
+};
+
+const deleteUser = async id => {
+  await knex('users').where({ id }).del();
+};
+
+//const getUserByName = async name => await knex('users').where('name', '=', name);
+//const getUserByName = async name => await knex('users').where('name', 'ilike', name);
+const getUserByName = async name => await knex('users').where('name', 'ilike', `%${name}%`);
+const getUserByAge = async age => await knex('users').where('age', '>', age);
+
+const init = async () => {
+  console.log('users1:', await getAllUsers());
+
+  await addUser({
+    name: 'Марат',
+    phone: '+74556555489',
+    email: 'marat@mail.com',
+    age: 30,
   });
 
-  setInterval(() => {
-    fetchAndStoreData(tickers);
-  }, 5000);
-} catch (err) {
-  console.error(`Ошибка при чтении из файла: ${err.message}`);
-}
+  await updateUser(3, {
+    age: 15,
+  });
+
+  await deleteUser(5);
+
+  console.log('users2:', await getAllUsers());
+
+  console.log(await getUserByName('Лескин'));
+
+  console.log(await getUserByAge(33));
+
+  knex.destroy();
+};
+
+init();

@@ -1,7 +1,7 @@
 {
-  "name": "crypto-api",
+  "name": "postgresql",
   "version": "1.0.0",
-  "description": "crypto api project",
+  "description": "Работа с базой данных из Node.js",
   "main": "index.js",
   "scripts": {
     "start": "node index",
@@ -11,7 +11,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson13"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson14"
   },
   "keywords": [
     "package",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson13#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson14#readme",
   "devDependencies": {
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
@@ -32,6 +32,8 @@
     "prettier": "^3.0.3"
   },
   "dependencies": {
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "knex": "^2.5.1",
+    "pg": "^8.11.3"
   }
 }
