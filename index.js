@@ -1,60 +1,59 @@
-import 'dotenv/config';
-import { default as Knex } from 'knex';
+import process from 'node:process';
+import { argsParse } from './util/argsParse.js';
+import { addTask } from './service/addTask.services.js';
+import { listTodo } from './service/listTodo.services.js';
+import { getTodo } from './service/getTodo.services.js';
+import { delTask } from './service/delTask.services.js';
+import { updateTask } from './service/updateTask.services.js';
+import { changeStatusTask } from './service/changeStatusTask.services.js';
 
-const knex = Knex({
-  client: 'pg',
-  connection: {
-    host: process.env.DB_HOST,
-    //port: process.env.DB_PORT || 5432,
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-  },
-});
+const app = () => {
+  const args = argsParse(process.argv, ['add', 'list', 'get', 'update', 'status', 'delete']);
 
-const getAllUsers = async () => await knex('users');
+  if (args.h || args.help) {
+    console.log(`
+      -h --help               : список команд
+      add <task>              : добавить новую задачу.
+      list                    : вывести список всех задач.
+      get <id>                : вывести информацию о задаче с указанным идентификатором.
+      update <id> <newTask>   : обновить задачу с указанным идентификатором.
+      status <id> <newStatus> : обновить статус задачи с указанным идентификатором.
+      delete <id>             : удалить задачу с указанным идентификатором.
+    `);
+    return;
+  }
 
-const addUser = async ({ name, phone, email, age }) => {
-  await knex('users').insert({ name, phone, email, age });
-  console.log('Пользователь успешно добавлен');
+  if (args.add) {
+    addTask(args.add);
+    return;
+  }
+
+  if (args.list) {
+    listTodo();
+    return;
+  }
+
+  if (args.get) {
+    getTodo(args.get);
+    return;
+  }
+
+  if (args.update) {
+    updateTask(args.update.id, args.update.str);
+    return;
+  }
+
+  if (args.status) {
+    changeStatusTask(args.status.id, args.status.str);
+    return;
+  }
+
+  if (args.delete) {
+    delTask(args.delete);
+    return;
+  }
+
+  console.log('Неверная команда, выполните команду node index -h для вывода доступных команд');
 };
 
-const updateUser = async (id, user) => {
-  await knex('users').where({ id }).update(user);
-};
-
-const deleteUser = async id => {
-  await knex('users').where({ id }).del();
-};
-
-//const getUserByName = async name => await knex('users').where('name', '=', name);
-//const getUserByName = async name => await knex('users').where('name', 'ilike', name);
-const getUserByName = async name => await knex('users').where('name', 'ilike', `%${name}%`);
-const getUserByAge = async age => await knex('users').where('age', '>', age);
-
-const init = async () => {
-  console.log('users1:', await getAllUsers());
-
-  await addUser({
-    name: 'Марат',
-    phone: '+74556555489',
-    email: 'marat@mail.com',
-    age: 30,
-  });
-
-  await updateUser(3, {
-    age: 15,
-  });
-
-  await deleteUser(5);
-
-  console.log('users2:', await getAllUsers());
-
-  console.log(await getUserByName('Лескин'));
-
-  console.log(await getUserByAge(33));
-
-  knex.destroy();
-};
-
-init();
+app();
