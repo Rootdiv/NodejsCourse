@@ -4,7 +4,9 @@ import { storeQuotesData } from './dataModules/storeQuotesData.js';
 
 export const fetchAndStoreData = async tickers => {
   const tickersData = await fetchTickersData(tickers);
-  console.log('tickersData:', tickersData);
+  if (process.env.HTTP !== 'https') {
+    console.log('tickersData:', tickersData);
+  }
   const timestampedData = createTimestampedData(tickersData);
   storeQuotesData(timestampedData);
 };

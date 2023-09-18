@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "name": "crypto-api",
+      "script": "index.js",
+      "watch": true,
+      "env": {
+        "HTTP": "https"
+      }
+    }
+  ]
+}
