@@ -1,5 +1,5 @@
-import { readFile, writeFile } from 'node:fs/promises';
-import { INVALID_REQUEST_MESSAGE, QUOTES_FILE, SERVER_ERROR_MESSAGE, TICKERS_FILE } from '../const.js';
+import { knex } from '../connect.js';
+import { CRYPTO_DB, INVALID_REQUEST_MESSAGE, SERVER_ERROR_MESSAGE } from '../const.js';
 
 const SUCCESS_DELETE_MESSAGE = 'Валюта успешно удалена';
 
@@ -13,21 +13,21 @@ export const handleRemoveTickers = async (res, tickers, query) => {
       return;
     }
 
+    const quotesData = {};
     const removeTickers = query.tickers.toUpperCase().split(',');
-    const fileData = await readFile(QUOTES_FILE, 'utf8');
-    const quotesData = JSON.parse(fileData);
+    const [cryptoDB] = await knex(CRYPTO_DB).column('ticker', 'quotes');
+    quotesData[cryptoDB.ticker] = JSON.parse(cryptoDB.quotes);
 
-    removeTickers.forEach(ticker => {
+    removeTickers.forEach(async ticker => {
       const index = tickers.indexOf(ticker);
       if (index !== -1) {
         tickers.splice(index, 1);
         delete quotesData[ticker];
+        await knex(CRYPTO_DB).where({ ticker }).del();
       }
     });
 
     if (tickers.length !== tickersLength) {
-      await writeFile(TICKERS_FILE, JSON.stringify(tickers), 'utf8');
-      await writeFile(QUOTES_FILE, JSON.stringify(quotesData), 'utf8');
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: SUCCESS_DELETE_MESSAGE }));
     } else {
@@ -35,7 +35,7 @@ export const handleRemoveTickers = async (res, tickers, query) => {
       res.end(JSON.stringify({ message: INVALID_REQUEST_MESSAGE }));
     }
   } catch (err) {
-    console.error(`Ошибка при удалении данных: ${err.message}`);
+    console.error(`Ошибка при удалении из базы данных: ${err.message}`);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: SERVER_ERROR_MESSAGE }));
   }

@@ -1,5 +1,5 @@
-import { writeFile } from 'node:fs/promises';
-import { INVALID_REQUEST_MESSAGE, SERVER_ERROR_MESSAGE, TICKERS_FILE } from '../const.js';
+import { knex } from '../connect.js';
+import { CRYPTO_DB, INVALID_REQUEST_MESSAGE, SERVER_ERROR_MESSAGE } from '../const.js';
 
 const SUCCESS_ADD_MESSAGE = 'Валюта успешно добавлена';
 
@@ -23,22 +23,22 @@ export const handleAddTickers = (req, res, tickers, validTickers) => {
       userTickers.push(...data);
     }
 
-    userTickers.forEach(ticker => {
+    userTickers.forEach(async ticker => {
       if (validTickers.includes(ticker) && !tickers.includes(ticker)) {
         tickers.push(ticker);
+        try {
+          await knex(CRYPTO_DB).insert([{ ticker }]);
+        } catch (err) {
+          console.error(`Ошибка при записи в базу данных: ${err.message}`);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ message: SERVER_ERROR_MESSAGE }));
+        }
       }
     });
 
     if (tickers.length !== lengthTickers) {
-      try {
-        await writeFile(TICKERS_FILE, JSON.stringify(tickers), 'utf8');
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: SUCCESS_ADD_MESSAGE }));
-      } catch (err) {
-        console.error(`Ошибка при записи файла: ${err.message}`);
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: SERVER_ERROR_MESSAGE }));
-      }
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: SUCCESS_ADD_MESSAGE }));
     } else {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: INVALID_REQUEST_MESSAGE }));

@@ -1,11 +1,14 @@
-import { readFile } from 'node:fs/promises';
-import { QUOTES_FILE, SERVER_ERROR_MESSAGE } from '../const.js';
+import { knex } from '../connect.js';
+import { CRYPTO_DB, SERVER_ERROR_MESSAGE } from '../const.js';
 import { handleQueryStep } from './handleQueryStep.js';
 
 export const handleCryptoRequest = async (res, query) => {
   try {
-    const fileData = await readFile(QUOTES_FILE, 'utf8');
-    const quotesData = JSON.parse(fileData);
+    const quotesData = {};
+    const cryptoDB = await knex(CRYPTO_DB).column('ticker', 'quotes');
+    cryptoDB.forEach(item => {
+      quotesData[item.ticker] = JSON.parse(item.quotes);
+    });
     res.writeHead(200, { 'Content-Type': 'application/json' });
 
     if (query.tickers) {

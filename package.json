@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
+    "dev": "npm i --omit=dev",
     "lint": "eslint . --fix"
   },
   "type": "module",
@@ -22,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson16#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson14#readme",
   "devDependencies": {
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
@@ -31,6 +32,8 @@
     "prettier": "^3.0.3"
   },
   "dependencies": {
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "knex": "^2.5.1",
+    "pg": "^8.11.3"
   }
 }

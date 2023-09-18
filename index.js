@@ -1,17 +1,17 @@
 import 'dotenv/config';
-import { readFile } from 'node:fs/promises';
 import { fetchValidTickers } from './modules/fetchValidTickers.js';
 import { fetchAndStoreData } from './modules/fetchAndStoreData.js';
 import { startServer } from './modules/startServer.js';
-import { TICKERS_FILE } from './modules/const.js';
+import { knex } from './modules/connect.js';
+import { CRYPTO_DB } from './modules/const.js';
 
 const PORT = process.env.PORT || 3000;
 
 try {
   const validTickers = await fetchValidTickers();
 
-  const fileData = await readFile(TICKERS_FILE, 'utf8');
-  const tickers = JSON.parse(fileData);
+  //Соединения с БД должно оставаться открытым для нормальной работы приложения
+  const tickers = await knex(CRYPTO_DB).pluck('ticker');
 
   const server = startServer(tickers, validTickers);
   server.listen(PORT, () => {
@@ -22,5 +22,5 @@ try {
     fetchAndStoreData(tickers);
   }, 5000);
 } catch (err) {
-  console.error(`Ошибка при чтении из файла: ${err.message}`);
+  console.error(`Ошибка при чтении из базы данных: ${err.message}`);
 }
