@@ -1,7 +1,7 @@
 {
-  "name": "postgresql",
+  "name": "base64-and-form-data",
   "version": "1.0.0",
-  "description": "Работа с базой данных из Node.js",
+  "description": "Сохранение файлов на сервере",
   "main": "index.js",
   "scripts": {
     "start": "node index",
@@ -11,7 +11,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson14"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson15"
   },
   "keywords": [
     "package",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson14#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson15#readme",
   "devDependencies": {
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
@@ -34,6 +34,7 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "knex": "^2.5.1",
+    "multer": "^1.4.5-lts.1",
     "pg": "^8.11.3"
   }
 }
