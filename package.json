@@ -5,13 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "dev": "nodemon index",
     "lint": "eslint . --fix"
   },
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson13"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#lesson16"
   },
   "keywords": [
     "package",
@@ -23,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson13#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson16#readme",
   "devDependencies": {
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
