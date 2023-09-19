@@ -3,7 +3,10 @@
     {
       "name": "crypto-api",
       "script": "index.js",
-      "watch": true,
+      "watch": [
+        "index.js",
+        "modules"
+      ],
       "env": {
         "HTTP": "https"
       }
