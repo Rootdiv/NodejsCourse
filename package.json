@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson14#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/lesson16#readme",
   "devDependencies": {
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
