@@ -1,7 +1,7 @@
 {
-  "name": "template-project",
+  "name": "api-shop-online",
   "version": "1.0.0",
-  "description": "template node js project",
+  "description": "API интернет магазина ShopOnline",
   "main": "index.js",
   "scripts": {
     "start": "node index",
@@ -11,7 +11,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rootdiv/NodejsCourse.git"
+    "url": "git+https://github.com/Rootdiv/NodejsCourse.git#api"
   },
   "keywords": [
     "package",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Rootdiv/NodejsCourse/issues"
   },
-  "homepage": "https://github.com/Rootdiv/NodejsCourse#readme",
+  "homepage": "https://github.com/Rootdiv/NodejsCourse/tree/api#readme",
   "devDependencies": {
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
