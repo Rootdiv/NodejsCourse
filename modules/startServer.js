@@ -6,6 +6,7 @@ import { categoriesRequest } from './categoriesRequest.js';
 import { totalPriceRequest } from './totalRequest.js';
 import { productRequest } from './productRequest.js';
 import { imageRequest } from './imageRequest.js';
+import { categoryGoodsRequest } from './categoryGoodsRequest.js';
 
 export const startServer = () =>
   createServer(async (req, res) => {
@@ -25,25 +26,32 @@ export const startServer = () =>
     }
 
     //Проверяем, что все запросы приходят с нужного адреса
-    if (req.url.startsWith('/api/')) {
+    if (req.url.startsWith(URL_PREFIX)) {
       //Обрабатываем GET запросы для определённых адресов
       if (req.method === 'GET') {
-        if (url === 'goods/') {
-          goodsRequest(res, query);
+        if (url.startsWith('goods')) {
+          const itemId = url.split('/').pop();
+          if (query.page || query.search) {
+            goodsRequest(res, query);
+            return;
+          } else if (itemId !== '') {
+            productRequest(itemId, res);
+            return;
+          }
+          goodsRequest(res, {});
           return;
         }
 
-        if (url.startsWith('goods/')) {
-          productRequest(url, res);
+        if (url.startsWith('categories')) {
+          if (url.split('/').pop()) {
+            categoryGoodsRequest(url, res, query);
+          } else {
+            categoriesRequest(res);
+          }
           return;
         }
 
-        if (url === 'categories/') {
-          categoriesRequest(res);
-          return;
-        }
-
-        if (url === 'total/') {
+        if (url === 'total/' || url === 'total') {
           totalPriceRequest(res);
           return;
         }
@@ -61,6 +69,8 @@ export const startServer = () =>
       }
     }
 
-    res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: NOT_FOUND_MESSAGE }));
+    if (req.url !== '/favicon.ico') {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: NOT_FOUND_MESSAGE }));
+    }
   });

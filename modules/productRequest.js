@@ -1,11 +1,10 @@
 import { readFile } from 'node:fs/promises';
 import { GOODS_FILE, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
 
-export const productRequest = async (url, res) => {
+export const productRequest = async (productId, res) => {
   try {
     const fileData = await readFile(GOODS_FILE, 'utf8');
     const goodsData = JSON.parse(fileData);
-    const productId = url.split('/').pop();
     const product = goodsData.find(({ id }) => id === productId);
     if (product) {
       res.writeHead(200, { 'Content-Type': 'application/json' });

@@ -8,7 +8,7 @@ export const categoriesRequest = async res => {
     const categories = goodsData.map(item => item.category);
     if (categories.length) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(categories));
+      res.end(JSON.stringify([...new Set(categories)]));
     } else {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: NOT_FOUND_MESSAGE }));
