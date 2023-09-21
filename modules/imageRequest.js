@@ -4,7 +4,7 @@ import { SERVER_ERROR_MESSAGE } from './const.js';
 export const imageRequest = async (req, res) => {
   try {
     let contentType = 'image/svg+xml';
-    const [filename, ext] = req.url.split('.');
+    const ext = req.url.split('.').pop();
     if (ext === 'jpg' || ext === 'jpeg') {
       contentType = 'image/jpeg';
     } else if (ext === 'png') {
@@ -12,7 +12,7 @@ export const imageRequest = async (req, res) => {
     }
     res.statusCode = 200;
     res.setHeader('Content-Type', contentType);
-    const image = await readFile(`.${filename}.${ext}`);
+    const image = await readFile(`.${req.url}`);
     res.end(image);
   } catch (err) {
     console.error(`Ошибка при чтении файла: ${err.message}`);
