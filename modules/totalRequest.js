@@ -5,7 +5,7 @@ export const totalPriceRequest = async res => {
   try {
     const fileData = await readFile(GOODS_FILE, 'utf8');
     const goodsData = JSON.parse(fileData);
-    const totalPriceGoods = goodsData.reduce((acc, { price }) => acc + parseFloat(price), 0);
+    const totalPriceGoods = goodsData.reduce((acc, { price, count }) => acc + parseFloat(price) * count, 0);
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(totalPriceGoods));
   } catch (err) {

@@ -7,6 +7,9 @@ import { totalPriceRequest } from './totalRequest.js';
 import { productRequest } from './productRequest.js';
 import { imageRequest } from './imageRequest.js';
 import { categoryGoodsRequest } from './categoryGoodsRequest.js';
+import { addProduct } from './addProduct.js';
+import { deleteProduct } from './deleteProduct.js';
+import { updateProduct } from './updateProduct.js';
 
 export const startServer = () =>
   createServer(async (req, res) => {
@@ -15,6 +18,11 @@ export const startServer = () =>
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
+
+    if (req.method === 'OPTIONS') {
+      res.end();
+      return;
+    }
 
     const URL_PREFIX = '/api/';
     const url = req.url.substring(URL_PREFIX.length);
@@ -38,7 +46,7 @@ export const startServer = () =>
             productRequest(itemId, res);
             return;
           }
-          goodsRequest(res, {});
+          goodsRequest(res, query);
           return;
         }
 
@@ -58,13 +66,19 @@ export const startServer = () =>
       }
 
       //Обрабатываем остальные запросы для адреса goods
-      if (req.url.includes('goods') && req.method === 'POST') {
+      if (url.startsWith('goods') && req.method === 'POST') {
+        await addProduct(req, res);
         return;
       }
-      if (req.url.includes('goods') && req.method === 'PATCH') {
+      if (url.startsWith('goods') && req.method === 'PATCH') {
+        const itemId = url.split('/').pop();
+        await updateProduct(req, res, itemId);
+        console.log('patch');
         return;
       }
-      if (req.url.includes('goods') && req.method === 'DELETE') {
+      if (url.startsWith('goods') && req.method === 'DELETE') {
+        const itemId = url.split('/').pop();
+        await deleteProduct(itemId, res);
         return;
       }
     }
