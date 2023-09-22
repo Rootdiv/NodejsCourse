@@ -22,6 +22,13 @@ export const updateProduct = async (req, res, productId) => {
     return;
   }
 
+  const index = goods.findIndex(product => product.id === productId);
+  if (index === -1) {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: NOT_FOUND_MESSAGE }));
+    return;
+  }
+
   updateProduct.title = data.title;
   updateProduct.price = price;
   updateProduct.description = data.description;
@@ -29,6 +36,13 @@ export const updateProduct = async (req, res, productId) => {
   updateProduct.discount = discount;
   updateProduct.count = count;
   updateProduct.units = data.units;
+
+  //Удаляем свойства обновлённого объекта значения которых совпадают с исходным
+  for (const key in goods[index]) {
+    if (goods[index][key] === data[key]) {
+      delete updateProduct[key];
+    }
+  }
 
   if (data.image) {
     const format = data.image.match(/^data:image\/([a-z+]+);base64,/i)[1];
@@ -48,16 +62,11 @@ export const updateProduct = async (req, res, productId) => {
     }
   }
 
-  const index = goods.findIndex(product => product.id === productId);
-  if (index === -1) {
-    res.writeHead(404, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: NOT_FOUND_MESSAGE }));
-    return;
-  }
-
+  //Удаляем старый файл если новый в другом формате
   if (updateProduct.image && goods[index].image !== updateProduct.image) {
     await unlink(goods[index].image);
   }
+
   goods[index] = { ...goods[index], ...updateProduct };
 
   try {
