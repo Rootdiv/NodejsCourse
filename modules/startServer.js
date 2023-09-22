@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
 import { URLSearchParams } from 'node:url';
-import { NOT_FOUND_MESSAGE } from './const.js';
+import { NOT_FOUND_DATA, NOT_FOUND_MESSAGE } from './const.js';
 import { goodsRequest } from './goodsRequest.js';
 import { categoriesRequest } from './categoriesRequest.js';
 import { totalPriceRequest } from './totalRequest.js';
@@ -37,6 +37,11 @@ export const startServer = () =>
     if (req.url.startsWith(URL_PREFIX)) {
       //Обрабатываем GET запросы для определённых адресов
       if (req.method === 'GET') {
+        if (url === 'goods/?search=') {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify(NOT_FOUND_DATA));
+          return;
+        }
         if (url.startsWith('goods')) {
           const itemId = url.split('/').pop();
           if (query.page || query.search) {

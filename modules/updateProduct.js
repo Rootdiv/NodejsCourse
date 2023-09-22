@@ -4,9 +4,8 @@ import { getFormData } from './getFormData.js';
 import { saveImage } from './saveImage.js';
 import { formatNumData } from './formatNumData.js';
 
-const SUCCESS_UPDATED_MESSAGE = 'Товар успешно обновлён';
-
 export const updateProduct = async (req, res, productId) => {
+  if (productId === '0') return;
   const data = JSON.parse(await getFormData(req));
 
   const fileData = await readFile(GOODS_FILE, 'utf8');
@@ -71,8 +70,8 @@ export const updateProduct = async (req, res, productId) => {
 
   try {
     await writeFile(GOODS_FILE, JSON.stringify(goods), 'utf8');
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: SUCCESS_UPDATED_MESSAGE }));
+    res.writeHead(204, { 'Content-Type': 'application/json' });
+    res.end();
   } catch (err) {
     console.error(`Ошибка при записи файла: ${err.message}`);
     res.writeHead(500, { 'Content-Type': 'application/json' });

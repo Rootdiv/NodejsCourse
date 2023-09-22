@@ -55,7 +55,7 @@ export const addProduct = async (req, res) => {
 
   try {
     await writeFile(GOODS_FILE, JSON.stringify(goods), 'utf8');
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.writeHead(201, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(newProduct));
     console.log(SUCCESS_ADD_MESSAGE);
   } catch (err) {
