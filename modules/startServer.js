@@ -73,7 +73,6 @@ export const startServer = () =>
       if (url.startsWith('goods') && req.method === 'PATCH') {
         const itemId = url.split('/').pop();
         await updateProduct(req, res, itemId);
-        console.log('patch');
         return;
       }
       if (url.startsWith('goods') && req.method === 'DELETE') {
