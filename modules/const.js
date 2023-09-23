@@ -1,6 +1,6 @@
 export const SERVER_ERROR_MESSAGE = 'Внутренняя ошибка сервера';
 export const INVALID_REQUEST_MESSAGE = 'Неверный запрос';
-export const NOT_FOUND_MESSAGE = 'Данные не найдены';
+export const NOT_FOUND_MESSAGE = 'Товар не найден';
 export const GOODS_FILE = process.env.GOODS_FILE;
 export const GOODS_DB = process.env.GOODS_DB;
 export const NOT_FOUND_GOODS = {

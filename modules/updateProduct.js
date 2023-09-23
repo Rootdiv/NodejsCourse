@@ -1,15 +1,13 @@
-import { readFile, unlink, writeFile } from 'fs/promises';
-import { GOODS_FILE, INVALID_REQUEST_MESSAGE, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
+import { knex } from './connect.js';
+import { unlink } from 'fs/promises';
+import { GOODS_DB, INVALID_REQUEST_MESSAGE, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
 import { getFormData } from './getFormData.js';
 import { saveImage } from './saveImage.js';
 import { formatNumData } from './formatNumData.js';
 
-export const updateProduct = async (req, res, productId) => {
-  if (productId === '0') return;
+export const updateProduct = async (req, res, id) => {
+  if (id === '0') return;
   const data = JSON.parse(await getFormData(req));
-
-  const fileData = await readFile(GOODS_FILE, 'utf8');
-  const goods = JSON.parse(fileData);
 
   const updateProduct = {};
 
@@ -21,8 +19,8 @@ export const updateProduct = async (req, res, productId) => {
     return;
   }
 
-  const index = goods.findIndex(product => product.id === productId);
-  if (index === -1) {
+  const [product] = await knex(GOODS_DB).where({ id });
+  if (!product) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: NOT_FOUND_MESSAGE }));
     return;
@@ -37,8 +35,8 @@ export const updateProduct = async (req, res, productId) => {
   updateProduct.units = data.units;
 
   //Удаляем свойства обновлённого объекта значения которых совпадают с исходным
-  for (const key in goods[index]) {
-    if (goods[index][key] === data[key]) {
+  for (const key in product) {
+    if (product[key] === data[key]) {
       delete updateProduct[key];
     }
   }
@@ -51,7 +49,7 @@ export const updateProduct = async (req, res, productId) => {
       return;
     } else {
       try {
-        updateProduct.image = await saveImage(productId, data.image, format);
+        updateProduct.image = await saveImage(id, data.image, format);
       } catch (err) {
         console.error(`Ошибка при записи файла: ${err.message}`);
         res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -62,18 +60,16 @@ export const updateProduct = async (req, res, productId) => {
   }
 
   //Удаляем старый файл если новый в другом формате
-  if (updateProduct.image && goods[index].image !== updateProduct.image) {
-    await unlink(goods[index].image);
+  if (updateProduct.image && product.image !== updateProduct.image) {
+    await unlink(product.image);
   }
 
-  goods[index] = { ...goods[index], ...updateProduct };
-
   try {
-    await writeFile(GOODS_FILE, JSON.stringify(goods), 'utf8');
+    await knex(GOODS_DB).where({ id }).update(updateProduct);
     res.writeHead(204, { 'Content-Type': 'application/json' });
     res.end();
   } catch (err) {
-    console.error(`Ошибка при записи файла: ${err.message}`);
+    console.error(`Ошибка при записи обновлении товара: ${err.message}`);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: SERVER_ERROR_MESSAGE }));
   }

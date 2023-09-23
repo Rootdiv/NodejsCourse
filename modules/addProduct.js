@@ -1,16 +1,11 @@
-import { readFile, writeFile } from 'fs/promises';
-import { GOODS_FILE, INVALID_REQUEST_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
+import { knex } from './connect.js';
+import { GOODS_DB, INVALID_REQUEST_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
 import { getFormData } from './getFormData.js';
 import { saveImage } from './saveImage.js';
 import { formatNumData } from './formatNumData.js';
 
-const SUCCESS_ADD_MESSAGE = 'Товар успешно добавлен';
-
 export const addProduct = async (req, res) => {
   const data = JSON.parse(await getFormData(req));
-
-  const fileData = await readFile(GOODS_FILE, 'utf8');
-  const goods = JSON.parse(fileData);
 
   const id = Math.random().toString().substring(2, 5) + Date.now().toString().substring(9) + data.id;
 
@@ -51,15 +46,12 @@ export const addProduct = async (req, res) => {
     }
   }
 
-  goods.push(newProduct);
-
   try {
-    await writeFile(GOODS_FILE, JSON.stringify(goods), 'utf8');
+    await knex(GOODS_DB).insert(newProduct);
     res.writeHead(201, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(newProduct));
-    console.log(SUCCESS_ADD_MESSAGE);
   } catch (err) {
-    console.error(`Ошибка при записи файла: ${err.message}`);
+    console.error(`Ошибка при добавлении товара: ${err.message}`);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: SERVER_ERROR_MESSAGE }));
   }

@@ -1,11 +1,9 @@
-import { readFile } from 'node:fs/promises';
-import { GOODS_FILE, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
+import { knex } from './connect.js';
+import { GOODS_DB, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
 
 export const categoriesRequest = async res => {
   try {
-    const fileData = await readFile(GOODS_FILE, 'utf8');
-    const goodsData = JSON.parse(fileData);
-    const categories = goodsData.map(item => item.category);
+    const categories = await knex(GOODS_DB).pluck('category');
     if (categories.length) {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify([...new Set(categories)]));
@@ -14,7 +12,7 @@ export const categoriesRequest = async res => {
       res.end(JSON.stringify({ message: NOT_FOUND_MESSAGE }));
     }
   } catch (err) {
-    console.error(`Ошибка при чтении файла: ${err.message}`);
+    console.error(`Ошибка при получении категорий: ${err.message}`);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: SERVER_ERROR_MESSAGE }));
   }

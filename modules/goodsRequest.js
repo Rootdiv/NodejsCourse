@@ -1,11 +1,10 @@
-import { readFile } from 'node:fs/promises';
-import { GOODS_FILE, NOT_FOUND_DATA, NOT_FOUND_GOODS, SERVER_ERROR_MESSAGE } from './const.js';
+import { knex } from './connect.js';
+import { GOODS_DB, NOT_FOUND_DATA, NOT_FOUND_GOODS, SERVER_ERROR_MESSAGE } from './const.js';
 import { pagination } from './pagination.js';
 
 export const goodsRequest = async (res, query) => {
   try {
-    const fileData = await readFile(GOODS_FILE, 'utf8');
-    const goodsDB = JSON.parse(fileData);
+    const goodsDB = await knex(GOODS_DB).orderBy('rowID');
     let goodsData = goodsDB;
     const page = +query.page || 1;
     const paginationCount = +query.count || 10;
@@ -27,7 +26,7 @@ export const goodsRequest = async (res, query) => {
       res.end(JSON.stringify(NOT_FOUND_GOODS));
     }
   } catch (err) {
-    console.error(`Ошибка при чтении файла: ${err.message}`);
+    console.error(`Ошибка при получении товаров из базы данных: ${err.message}`);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: SERVER_ERROR_MESSAGE }));
   }

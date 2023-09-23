@@ -1,13 +1,11 @@
-import { readFile } from 'node:fs/promises';
-import { GOODS_FILE, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
+import { knex } from './connect.js';
+import { GOODS_DB, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
 import { pagination } from './pagination.js';
 
 export const categoryGoodsRequest = async (url, res, query) => {
+  const category = decodeURIComponent(url.split('/').pop());
   try {
-    const fileData = await readFile(GOODS_FILE, 'utf8');
-    const goodsData = JSON.parse(fileData);
-    const categoryName = decodeURIComponent(url.split('/').pop());
-    const goodsCategory = goodsData.filter(({ category }) => category === categoryName);
+    const goodsCategory = await knex(GOODS_DB).where({ category });
     const page = +query.page || 1;
     const paginationCount = 10;
     if (goodsCategory.length) {
@@ -19,7 +17,7 @@ export const categoryGoodsRequest = async (url, res, query) => {
       res.end(JSON.stringify({ message: NOT_FOUND_MESSAGE }));
     }
   } catch (err) {
-    console.error(`Ошибка при чтении файла: ${err.message}`);
+    console.error(`Ошибка при получении товаров по категории ${category}: ${err.message}`);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: SERVER_ERROR_MESSAGE }));
   }
