@@ -1,4 +1,6 @@
-import { createServer } from 'node:http';
+const protocol = process.env.HTTP || 'http';
+const { createServer } = await import(`node:${protocol}`);
+import { readFileSync } from 'node:fs';
 import { URLSearchParams } from 'node:url';
 import { NOT_FOUND_DATA, NOT_FOUND_MESSAGE } from './const.js';
 import { goodsRequest } from './serverModules/goodsRequest.js';
@@ -11,8 +13,16 @@ import { addProduct } from './serverModules/addProduct.js';
 import { deleteProduct } from './serverModules/deleteProduct.js';
 import { updateProduct } from './serverModules/updateProduct.js';
 
+const options = {};
+if (protocol === 'https') {
+  const domain = 'rootdiv.ru';
+  const certDir = '/etc/nginx/acme.sh';
+  options['key'] = readFileSync(`${certDir}/${domain}/privkey.pem`);
+  options['cert'] = readFileSync(`${certDir}/${domain}/fullchain.pem`);
+}
+
 export const startServer = () =>
-  createServer(async (req, res) => {
+  createServer(options, async (req, res) => {
     const query = Object.fromEntries(new URLSearchParams(req.url.split('?')[1]));
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');

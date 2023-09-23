@@ -1,0 +1,15 @@
+{
+  "apps": [
+    {
+      "name": "api_cms",
+      "script": "index.js",
+      "watch": [
+        "index.js",
+        "modules"
+      ],
+      "env": {
+        "HTTP": "https"
+      }
+    }
+  ]
+}
