@@ -1,15 +1,15 @@
 import { createServer } from 'node:http';
 import { URLSearchParams } from 'node:url';
 import { NOT_FOUND_DATA, NOT_FOUND_MESSAGE } from './const.js';
-import { goodsRequest } from './goodsRequest.js';
-import { categoriesRequest } from './categoriesRequest.js';
-import { totalPriceRequest } from './totalRequest.js';
-import { productRequest } from './productRequest.js';
-import { imageRequest } from './imageRequest.js';
-import { categoryGoodsRequest } from './categoryGoodsRequest.js';
-import { addProduct } from './addProduct.js';
-import { deleteProduct } from './deleteProduct.js';
-import { updateProduct } from './updateProduct.js';
+import { goodsRequest } from './serverModules/goodsRequest.js';
+import { categoriesRequest } from './serverModules/categoriesRequest.js';
+import { totalPriceRequest } from './serverModules/totalRequest.js';
+import { productRequest } from './serverModules/productRequest.js';
+import { imageRequest } from './serverModules/imageRequest.js';
+import { categoryGoodsRequest } from './serverModules/categoryGoodsRequest.js';
+import { addProduct } from './serverModules/addProduct.js';
+import { deleteProduct } from './serverModules/deleteProduct.js';
+import { updateProduct } from './serverModules/updateProduct.js';
 
 export const startServer = () =>
   createServer(async (req, res) => {

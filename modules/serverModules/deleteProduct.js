@@ -1,6 +1,6 @@
-import { knex } from './connect.js';
+import { knex } from '../connect.js';
 import { unlink } from 'node:fs/promises';
-import { GOODS_DB, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
+import { GOODS_DB, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from '../const.js';
 
 export const deleteProduct = async (id, res) => {
   if (id === '0') return;

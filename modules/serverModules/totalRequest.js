@@ -1,5 +1,5 @@
-import { knex } from './connect.js';
-import { GOODS_DB, SERVER_ERROR_MESSAGE } from './const.js';
+import { knex } from '../connect.js';
+import { GOODS_DB, SERVER_ERROR_MESSAGE } from '../const.js';
 
 export const totalPriceRequest = async res => {
   try {

@@ -1,6 +1,6 @@
-import { knex } from './connect.js';
-import { GOODS_DB, NOT_FOUND_DATA, NOT_FOUND_GOODS, SERVER_ERROR_MESSAGE } from './const.js';
-import { pagination } from './pagination.js';
+import { knex } from '../connect.js';
+import { GOODS_DB, NOT_FOUND_DATA, NOT_FOUND_GOODS, SERVER_ERROR_MESSAGE } from '../const.js';
+import { pagination } from '../dataModules/pagination.js';
 
 export const goodsRequest = async (res, query) => {
   try {

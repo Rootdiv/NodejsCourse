@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { SERVER_ERROR_MESSAGE } from './const.js';
+import { SERVER_ERROR_MESSAGE } from '../const.js';
 
 export const imageRequest = async (req, res) => {
   try {

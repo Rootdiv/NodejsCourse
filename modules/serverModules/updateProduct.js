@@ -1,9 +1,9 @@
-import { knex } from './connect.js';
+import { knex } from '../connect.js';
 import { unlink } from 'fs/promises';
-import { GOODS_DB, INVALID_REQUEST_MESSAGE, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
-import { getFormData } from './getFormData.js';
-import { saveImage } from './saveImage.js';
-import { formatNumData } from './formatNumData.js';
+import { GOODS_DB, INVALID_REQUEST_MESSAGE, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from '../const.js';
+import { getFormData } from '../dataModules/getFormData.js';
+import { saveImage } from '../dataModules/saveImage.js';
+import { formatNumData } from '../dataModules/formatNumData.js';
 
 export const updateProduct = async (req, res, id) => {
   if (id === '0') return;

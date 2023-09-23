@@ -1,8 +1,8 @@
-import { knex } from './connect.js';
-import { GOODS_DB, INVALID_REQUEST_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
-import { getFormData } from './getFormData.js';
-import { saveImage } from './saveImage.js';
-import { formatNumData } from './formatNumData.js';
+import { knex } from '../connect.js';
+import { GOODS_DB, INVALID_REQUEST_MESSAGE, SERVER_ERROR_MESSAGE } from '../const.js';
+import { getFormData } from '../dataModules/getFormData.js';
+import { saveImage } from '../dataModules/saveImage.js';
+import { formatNumData } from '../dataModules/formatNumData.js';
 
 export const addProduct = async (req, res) => {
   const data = JSON.parse(await getFormData(req));

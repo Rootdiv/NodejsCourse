@@ -1,6 +1,6 @@
-import { knex } from './connect.js';
-import { GOODS_DB, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from './const.js';
-import { pagination } from './pagination.js';
+import { knex } from '../connect.js';
+import { GOODS_DB, NOT_FOUND_MESSAGE, SERVER_ERROR_MESSAGE } from '../const.js';
+import { pagination } from '../dataModules/pagination.js';
 
 export const categoryGoodsRequest = async (url, res, query) => {
   const category = decodeURIComponent(url.split('/').pop());
