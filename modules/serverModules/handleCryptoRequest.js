@@ -25,7 +25,7 @@ export const handleCryptoRequest = async (res, query) => {
 
     handleQueryStep(res, quotesData, query.step);
   } catch (err) {
-    console.error(`Ошибка при чтении файла: ${err.message}`);
+    console.error(`Ошибка при чтении из базы данных: ${err.message}`);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: SERVER_ERROR_MESSAGE }));
   }
