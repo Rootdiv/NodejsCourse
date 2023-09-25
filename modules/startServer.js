@@ -34,7 +34,7 @@ export const startServer = () =>
       return;
     }
 
-    const URL_PREFIX = '/api/';
+    const URL_PREFIX = '/api';
     const url = req.url.substring(URL_PREFIX.length);
 
     //Обрабатываем запрос картинки
@@ -47,17 +47,17 @@ export const startServer = () =>
     if (req.url.startsWith(URL_PREFIX)) {
       //Обрабатываем GET запросы для определённых адресов
       if (req.method === 'GET') {
-        if (url === 'goods/?search=') {
+        if (url === '/goods/?search=') {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify(NOT_FOUND_DATA));
           return;
         }
-        if (url.startsWith('goods')) {
+        if (url.startsWith('/goods')) {
           const itemId = url.split('/').pop();
           if (query.page || query.search) {
             goodsRequest(res, query);
             return;
-          } else if (itemId !== '') {
+          } else if (itemId !== '' && itemId !== 'goods') {
             productRequest(itemId, res);
             return;
           }
@@ -65,8 +65,9 @@ export const startServer = () =>
           return;
         }
 
-        if (url.startsWith('categories')) {
-          if (url.split('/').pop()) {
+        if (url.startsWith('/categories')) {
+          const category = url.split('/').pop();
+          if (category && category !== 'categories') {
             categoryGoodsRequest(url, res, query);
           } else {
             categoriesRequest(res);
@@ -74,23 +75,23 @@ export const startServer = () =>
           return;
         }
 
-        if (url === 'total/' || url === 'total') {
+        if (url.startsWith('/total')) {
           totalPriceRequest(res);
           return;
         }
       }
 
       //Обрабатываем остальные запросы для адреса goods
-      if (url.startsWith('goods') && req.method === 'POST') {
+      if (url.startsWith('/goods') && req.method === 'POST') {
         await addProduct(req, res);
         return;
       }
-      if (url.startsWith('goods') && req.method === 'PATCH') {
+      if (url.startsWith('/goods') && req.method === 'PATCH') {
         const itemId = url.split('/').pop();
         await updateProduct(req, res, itemId);
         return;
       }
-      if (url.startsWith('goods') && req.method === 'DELETE') {
+      if (url.startsWith('/goods') && req.method === 'DELETE') {
         const itemId = url.split('/').pop();
         await deleteProduct(itemId, res);
         return;
