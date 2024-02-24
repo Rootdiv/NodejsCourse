@@ -1,4 +1,4 @@
-const protocol = process.env.HTTP || 'http';
+const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const { createServer } = await import(`node:${protocol}`);
 import { readFileSync } from 'node:fs';
 import { URLSearchParams } from 'node:url';

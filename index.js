@@ -15,7 +15,9 @@ try {
 
   const server = startServer(tickers, validTickers);
   server.listen(PORT, () => {
-    console.log(`Сервер запущен на порте ${PORT}`);
+    if (!process.env.HTTPS || process.env.HTTPS === 'false') {
+      console.log(`Сервер запущен на порте ${PORT}`);
+    }
   });
 
   setInterval(() => {
