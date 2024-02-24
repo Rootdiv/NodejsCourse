@@ -5,5 +5,7 @@ const PORT = process.env.PORT || 2023;
 
 const server = startServer();
 server.listen(PORT, () => {
-  console.log(`Сервер запущен на порте ${PORT}`);
+  if (!process.env.HTTPS || process.env.HTTPS === 'false') {
+    console.log(`Сервер запущен на порте ${PORT}`);
+  }
 });
