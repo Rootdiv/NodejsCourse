@@ -62,7 +62,6 @@ npm run start
 - Выполнить: `pm2 startup`
 - Перейти в каталог проекта командой `cd <project_directory>`
 - Установить необходимые зависимости командой `npm i --omit=dev`
-- При запуске через https нужно изменить переменные `domain` и `certDir` в файле `modules/startServer.js`
-- При запуске без https нужно удалить секцию env из файла `ecosystem.config.json`
 - В каталоге API выполнить: `pm2 start ecosystem.config.json`
 - Выполнить: `pm2 save`
+- Настроить прокси web-сервере Apache или Nginx
