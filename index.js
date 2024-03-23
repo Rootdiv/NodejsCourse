@@ -14,15 +14,15 @@ try {
   const tickers = await knex(CRYPTO_DB).pluck('ticker');
 
   const server = startServer(tickers, validTickers);
-  server.listen(PORT, () => {
-    if (!process.env.HTTPS || process.env.HTTPS === 'false') {
+  server.listen(PORT, 'localhost', () => {
+    if (process.env.PROD !== 'true') {
       console.log(`Сервер запущен на порте ${PORT}`);
     }
   });
 
   setInterval(() => {
     fetchAndStoreData(tickers);
-  }, 5000);
+  }, 30000);
 } catch (err) {
   console.error(`Ошибка при чтении из базы данных: ${err.message}`);
 }

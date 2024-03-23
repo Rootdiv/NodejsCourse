@@ -1,7 +1,7 @@
-import { API_URL } from './const.js';
+import { API_URL, API_KEY } from './const.js';
 import { fetchUrlAsync } from './dataModules/fetchUrlAsync.js';
 
-const TICKERS_URL = 'data/all/coinlist?summary=true';
+const TICKERS_URL = `data/all/coinlist?summary=true&api_key=${API_KEY}`;
 
 export const fetchValidTickers = async () => {
   try {

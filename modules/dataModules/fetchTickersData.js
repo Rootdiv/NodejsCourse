@@ -1,5 +1,5 @@
 import { URL } from 'node:url';
-import { API_URL, TSYMS } from '../const.js';
+import { API_URL, TSYMS, API_KEY } from '../const.js';
 import { fetchUrlAsync } from './fetchUrlAsync.js';
 
 const PRICE_URL = 'data/pricemulti';
@@ -9,6 +9,7 @@ export const fetchTickersData = async tickers => {
     const url = new URL(`${API_URL}${PRICE_URL}`);
     url.searchParams.set('tsyms', TSYMS);
     url.searchParams.set('fsyms', tickers);
+    url.searchParams.set('api_key', API_KEY);
     const data = await fetchUrlAsync(url);
     return JSON.parse(data);
   } catch (err) {
